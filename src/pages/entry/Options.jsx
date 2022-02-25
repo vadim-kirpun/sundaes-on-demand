@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import ScoopOption from './ScoopOption';
+import ToppingOption from './ToppingOption';
 
 const Options = ({ optionType }) => {
   const [items, setItems] = useState([]);
@@ -14,13 +15,15 @@ const Options = ({ optionType }) => {
       .then((res) => setItems(res.data));
   }, [optionType]);
 
-  const ItemComponent = optionType === 'scoops' ? ScoopOption : null;
+  const ItemComponent = optionType === 'scoops' ? ScoopOption : ToppingOption;
 
-  const optionItems = items.map(({ name, imagePath }) => (
-    <ItemComponent key={name} name={name} imagePath={imagePath} />
-  ));
-
-  return <Row>{optionItems}</Row>;
+  return (
+    <Row>
+      {items.map(({ name, imagePath }) => (
+        <ItemComponent key={name} name={name} imagePath={imagePath} />
+      ))}
+    </Row>
+  );
 };
 
 Options.propTypes = {
