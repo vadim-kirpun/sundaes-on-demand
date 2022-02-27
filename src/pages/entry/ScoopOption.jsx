@@ -1,9 +1,12 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Form, Row } from 'react-bootstrap';
 
 const ScoopOption = ({ name, imagePath, onChange }) => {
-  const handleChange = (event) => onChange(name, event.target.value);
+  const handleChange = useCallback(
+    (event) => onChange(name, event.target.value),
+    [name, onChange]
+  );
 
   return (
     <Col xs={12} sm={6} md={4} lg={3} style={{ textAlign: 'center' }}>
