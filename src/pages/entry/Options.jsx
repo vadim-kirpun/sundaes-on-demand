@@ -1,11 +1,14 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
+import { useOrderDetails } from '../../context/OrderDetails';
+import { PRICE_PER_ITEM } from '../../constants';
+import { formatCurrency } from '../../helpers/format';
 import AlertBanner from '../common/AlertBanner';
-import ScoopOption from './ScoopOption';
 import ToppingOption from './ToppingOption';
+import ScoopOption from './ScoopOption';
 
 const Options = ({ optionType }) => {
   const [items, setItems] = useState([]);
@@ -21,16 +24,40 @@ const Options = ({ optionType }) => {
       .catch(setError);
   }, [optionType]);
 
+  const [orderDetails, updateItemCount] = useOrderDetails();
+
+  const onChange = useCallback(
+    (itemName, newItemCount) => {
+      updateItemCount(itemName, newItemCount, optionType);
+    },
+    [optionType, updateItemCount]
+  );
+
   if (error) return <AlertBanner />;
 
   const ItemComponent = optionType === 'scoops' ? ScoopOption : ToppingOption;
 
+  const title = optionType[0].toUpperCase() + optionType.slice(1).toLowerCase();
+  const price = `${formatCurrency(PRICE_PER_ITEM[optionType])} each`;
+  const total = `${title} total: ${orderDetails.totals[optionType]}`;
+
   return (
-    <Row>
-      {items.map(({ name, imagePath }) => (
-        <ItemComponent key={name} name={name} imagePath={imagePath} />
-      ))}
-    </Row>
+    <>
+      <h2>{title}</h2>
+      <p>{price}</p>
+      <p>{total}</p>
+
+      <Row>
+        {items.map(({ name, imagePath }) => (
+          <ItemComponent
+            key={name}
+            name={name}
+            onChange={onChange}
+            imagePath={imagePath}
+          />
+        ))}
+      </Row>
+    </>
   );
 };
 

@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { setup, screen } from '../../../helpers/test-utils';
 import Options from '../Options';
 
 test('displays image for each scoop from server', async () => {
-  render(<Options optionType="scoops" />);
+  setup(<Options optionType="scoops" />);
 
   // find images
   const images = await screen.findAllByRole('img', { name: /scoop$/i });
@@ -14,7 +14,7 @@ test('displays image for each scoop from server', async () => {
 });
 
 test('displays image for each topping from server', async () => {
-  render(<Options optionType="toppings" />);
+  setup(<Options optionType="toppings" />);
 
   const images = await screen.findAllByRole('img', {
     name: /topping$/i,

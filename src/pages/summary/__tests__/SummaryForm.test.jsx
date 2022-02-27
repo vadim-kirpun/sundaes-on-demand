@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { setup } from '../../../helpers';
+import { setup } from '../../../helpers/test-utils';
 import SummaryForm from '../SummaryForm';
 
 test('initial conditions', () => {

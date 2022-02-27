@@ -1,6 +1,6 @@
 import { rest } from 'msw';
-import { render, screen, waitFor } from '@testing-library/react';
 
+import { setup, screen, waitFor } from '../../../helpers/test-utils';
 import server from '../../../mocks/server';
 import OrderEntry from '../OrderEntry';
 
@@ -12,7 +12,7 @@ test('handles error for scoops and toppings routes', async () => {
     rest.get('http://localhost:3030/toppings', errorResolver)
   );
 
-  render(<OrderEntry />);
+  setup(<OrderEntry />);
 
   await waitFor(async () => {
     const alerts = await screen.findAllByRole('alert');
