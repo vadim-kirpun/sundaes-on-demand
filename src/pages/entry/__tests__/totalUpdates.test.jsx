@@ -60,16 +60,13 @@ test('update toppings subtotal when toppings changed', async () => {
 });
 
 describe('grand total', () => {
-  test('starts at $0.00', () => {
-    setup(<OrderEntry />);
-    const total = screen.getByRole('heading', { name: /grand total: \$/i });
-    expect(total).toHaveTextContent('0.00');
-  });
-
   test('updates properly if scoop is added first', async () => {
     const { user } = setup(<OrderEntry />);
 
     const total = screen.getByRole('heading', { name: /grand total: \$/i });
+
+    // check that the total starts at 0
+    expect(total).toHaveTextContent('0.00');
 
     // add scoop
     const chocolateInput = await screen.findByRole('spinbutton', {
