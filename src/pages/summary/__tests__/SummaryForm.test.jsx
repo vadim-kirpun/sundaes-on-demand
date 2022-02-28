@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { setup } from '../../../helpers/test-utils';
-import SummaryForm from '../SummaryForm';
+import SummaryForm from '../components/SummaryForm';
 
 test('initial conditions', () => {
-  render(<SummaryForm />);
+  render(<SummaryForm setOrderPhase={jest.fn()} />);
 
   const checkbox = screen.getByRole('checkbox', { name: /i agree/i });
   expect(checkbox).not.toBeChecked();
@@ -13,7 +13,7 @@ test('initial conditions', () => {
 });
 
 test('checkbox enables the button on first click and disables the button on second click', async () => {
-  const { user } = setup(<SummaryForm />);
+  const { user } = setup(<SummaryForm setOrderPhase={jest.fn()} />);
 
   const button = screen.getByRole('button', { name: 'Confirm order' });
   const checkbox = screen.getByRole('checkbox', { name: /i agree/i });
@@ -26,7 +26,7 @@ test('checkbox enables the button on first click and disables the button on seco
 });
 
 test('popover responds to hover', async () => {
-  const { user } = setup(<SummaryForm />);
+  const { user } = setup(<SummaryForm setOrderPhase={jest.fn()} />);
   const popoverText = /no ice cream/i;
 
   const trigger = screen.getByText(/terms and conditions/i);

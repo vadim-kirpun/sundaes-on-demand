@@ -1,7 +1,8 @@
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Form, Button, OverlayTrigger, Popover } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
-const SummaryForm = () => {
+const SummaryForm = ({ setOrderPhase }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const popover = (
@@ -21,8 +22,16 @@ const SummaryForm = () => {
 
   const onChange = (e) => setIsChecked(e.target.checked);
 
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      setOrderPhase('completed');
+    },
+    [setOrderPhase]
+  );
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Form.Group controlId="terms-and-conditions">
         <Form.Check
           type="checkbox"
@@ -37,6 +46,10 @@ const SummaryForm = () => {
       </Button>
     </Form>
   );
+};
+
+SummaryForm.propTypes = {
+  setOrderPhase: PropTypes.func.isRequired,
 };
 
 export default memo(SummaryForm);

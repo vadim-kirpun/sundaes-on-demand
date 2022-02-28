@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 
 import { setup } from '../../../helpers/test-utils';
-import Options from '../Options';
+import Options from '../components/Options';
 import OrderEntry from '../OrderEntry';
 
 test('update scoops subtotal when scoops changed', async () => {
@@ -61,7 +61,7 @@ test('update toppings subtotal when toppings changed', async () => {
 
 describe('grand total', () => {
   test('updates properly if scoop is added first', async () => {
-    const { user } = setup(<OrderEntry />);
+    const { user } = setup(<OrderEntry setOrderPhase={jest.fn()} />);
 
     const total = screen.getByRole('heading', { name: /grand total: \$/i });
 
@@ -87,7 +87,7 @@ describe('grand total', () => {
   });
 
   test('updates properly if topping is added first', async () => {
-    const { user } = setup(<OrderEntry />);
+    const { user } = setup(<OrderEntry setOrderPhase={jest.fn()} />);
 
     const total = screen.getByRole('heading', { name: /grand total: \$/i });
 
@@ -108,7 +108,7 @@ describe('grand total', () => {
   });
 
   test('updates properly if item is removed', async () => {
-    const { user } = setup(<OrderEntry />);
+    const { user } = setup(<OrderEntry setOrderPhase={jest.fn()} />);
 
     const total = screen.getByRole('heading', { name: /grand total: \$/i });
 

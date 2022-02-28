@@ -12,7 +12,7 @@ test('handles error for scoops and toppings routes', async () => {
     rest.get('http://localhost:3030/toppings', errorResolver)
   );
 
-  setup(<OrderEntry />);
+  setup(<OrderEntry setOrderPhase={jest.fn()} />);
 
   await waitFor(async () => {
     const alerts = await screen.findAllByRole('alert');

@@ -3,10 +3,10 @@ import { Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import { useOrderDetails } from '../../context/OrderDetails';
-import { PRICE_PER_ITEM } from '../../constants';
-import { formatCurrency } from '../../helpers/format';
-import AlertBanner from '../common/AlertBanner';
+import { useOrderDetails } from '../../../context/OrderDetails';
+import { formatCurrency } from '../../../helpers/format';
+import { PRICE_PER_ITEM } from '../../../constants';
+import AlertBanner from '../../common/AlertBanner';
 import ToppingOption from './ToppingOption';
 import ScoopOption from './ScoopOption';
 

@@ -1,5 +1,5 @@
 import { setup, screen } from '../../../helpers/test-utils';
-import Options from '../Options';
+import Options from '../components/Options';
 
 test('displays image for each scoop from server', async () => {
   setup(<Options optionType="scoops" />);
