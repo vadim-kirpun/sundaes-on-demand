@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { useOrderDetails } from '../../context/OrderDetails';
+import AlertBanner from '../common/AlertBanner';
 
 const OrderConfirmation = ({ setOrderPhase }) => {
   const [, , resetOrder] = useOrderDetails();
   const [orderNumber, setOrderNumber] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios
@@ -15,13 +17,15 @@ const OrderConfirmation = ({ setOrderPhase }) => {
       .then((res) => {
         setOrderNumber(res.data.orderNumber);
       })
-      .catch((error) => {});
+      .catch(setError);
   }, []);
 
   const handleClick = () => {
     resetOrder();
     setOrderPhase('inProgress');
   };
+
+  if (error) return <AlertBanner />;
 
   if (!orderNumber) return <div>Loading</div>;
 
