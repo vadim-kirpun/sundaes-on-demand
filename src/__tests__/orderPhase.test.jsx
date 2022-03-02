@@ -82,3 +82,21 @@ test('order phases', async () => {
   await screen.findByRole('spinbutton', { name: 'Vanilla' });
   await screen.findByRole('checkbox', { name: 'Cherries' });
 });
+
+test('Toppings header is not on summary page if no toppings ordered', async () => {
+  const { user } = setup(<App />, { wrapper: null });
+
+  // add scoops
+  const vanilla = await screen.findByRole('spinbutton', { name: 'Vanilla' });
+  await user.type(vanilla, '1');
+
+  // find and click order summary button
+  const orderSummary = screen.getByRole('button', { name: /order sundae/i });
+  await user.click(orderSummary);
+
+  const scoopsHeading = screen.getByRole('heading', { name: 'Scoops: $2.00' });
+  expect(scoopsHeading).toBeInTheDocument();
+
+  const toppings = screen.queryByRole('heading', { name: /toppings/i });
+  expect(toppings).not.toBeInTheDocument();
+});
