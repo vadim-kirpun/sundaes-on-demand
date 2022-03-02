@@ -10,6 +10,8 @@ const OrderEntry = ({ setOrderPhase }) => {
 
   const handleClick = () => setOrderPhase('review');
 
+  const isDisabled = totals.scoops === '$0.00';
+
   return (
     <div>
       <Options optionType="scoops" />
@@ -17,7 +19,9 @@ const OrderEntry = ({ setOrderPhase }) => {
 
       <h2>Grand total: {totals.grandTotal}</h2>
 
-      <Button onClick={handleClick}>Order Sundae!</Button>
+      <Button onClick={handleClick} disabled={isDisabled}>
+        Order Sundae!
+      </Button>
     </div>
   );
 };
