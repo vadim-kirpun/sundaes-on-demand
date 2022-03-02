@@ -8,15 +8,17 @@ const ScoopOption = ({ name, imagePath, onChange }) => {
   const handleChange = useCallback(
     (event) => {
       const { value } = event.target;
-      onChange(name, value);
 
       const valueFloat = parseFloat(value);
 
-      setIsValid(
-        0 <= valueFloat &&
-          valueFloat <= 10 &&
-          Math.floor(valueFloat) === valueFloat
-      );
+      const valid =
+        valueFloat >= 0 &&
+        valueFloat <= 10 &&
+        Math.floor(valueFloat) === valueFloat;
+
+      setIsValid(valid);
+
+      if (valid) onChange(name, value);
     },
     [name, onChange]
   );

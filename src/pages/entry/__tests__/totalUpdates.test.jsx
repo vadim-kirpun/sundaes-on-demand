@@ -129,6 +129,7 @@ describe('grand total', () => {
     await user.type(vanillaInput, '2');
     expect(total).toHaveTextContent('5.50');
 
+    await user.clear(vanillaInput);
     await user.type(vanillaInput, '1');
     expect(total).toHaveTextContent('3.50');
   });

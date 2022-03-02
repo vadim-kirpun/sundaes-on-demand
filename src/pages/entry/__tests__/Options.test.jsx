@@ -28,3 +28,13 @@ test('displays image for each topping from server', async () => {
     'Hot fudge topping',
   ]);
 });
+
+test("don't update total if scoops input is invalid", async () => {
+  const { user } = setup(<Options optionType="scoops" />);
+
+  const vanilla = await screen.findByRole('spinbutton', { name: 'Vanilla' });
+  await user.type(vanilla, '-1');
+
+  const subtotal = screen.getByText('Scoops total: $0.00');
+  expect(subtotal).toBeInTheDocument();
+});
