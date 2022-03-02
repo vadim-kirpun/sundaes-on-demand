@@ -1,10 +1,23 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Form, Row } from 'react-bootstrap';
 
 const ScoopOption = ({ name, imagePath, onChange }) => {
+  const [isValid, setIsValid] = useState(true);
+
   const handleChange = useCallback(
-    (event) => onChange(name, event.target.value),
+    (event) => {
+      const { value } = event.target;
+      onChange(name, value);
+
+      const valueFloat = parseFloat(value);
+
+      setIsValid(
+        0 <= valueFloat &&
+          valueFloat <= 10 &&
+          Math.floor(valueFloat) === valueFloat
+      );
+    },
     [name, onChange]
   );
 
@@ -30,6 +43,7 @@ const ScoopOption = ({ name, imagePath, onChange }) => {
             type="number"
             defaultValue={0}
             onChange={handleChange}
+            isInvalid={!isValid}
           />
         </Col>
       </Form.Group>
