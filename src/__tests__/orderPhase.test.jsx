@@ -52,11 +52,17 @@ test('order phases', async () => {
   const confirmOrder = screen.getByRole('button', { name: /confirm order/i });
   await user.click(confirmOrder);
 
+  // expect loading to show
+  expect(screen.getByText('Loading')).toBeInTheDocument();
+
   // confirm order number on confirmation page
   const thankYouHeader = await screen.findByRole('heading', {
     name: /thank you/i,
   });
   expect(thankYouHeader).toBeInTheDocument();
+
+  // expect loading to disappear
+  expect(screen.queryByText('Loading')).not.toBeInTheDocument();
 
   const orderNumber = await screen.findByText(/order number/i);
   expect(orderNumber).toBeInTheDocument();
