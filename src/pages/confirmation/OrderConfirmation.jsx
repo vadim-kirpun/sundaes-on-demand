@@ -1,31 +1,27 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
+import { useCreateOrder } from '../../api';
 import { useOrderDetails } from '../../context/OrderDetails';
 import AlertBanner from '../common/AlertBanner';
 
 const OrderConfirmation = ({ setOrderPhase }) => {
   const [, , resetOrder] = useOrderDetails();
-  const [orderNumber, setOrderNumber] = useState(null);
-  const [error, setError] = useState(null);
+
+  const mutation = useCreateOrder();
+  const { orderNumber } = mutation.data ?? {};
 
   useEffect(() => {
-    axios
-      .post('http://localhost:3030/order')
-      .then((res) => {
-        setOrderNumber(res.data.orderNumber);
-      })
-      .catch(setError);
-  }, []);
+    mutation.mutate();
+  }, [mutation.mutate]);
 
   const handleClick = () => {
     resetOrder();
     setOrderPhase('inProgress');
   };
 
-  if (error) return <AlertBanner />;
+  if (mutation.error) return <AlertBanner />;
 
   if (!orderNumber) return <div>Loading</div>;
 

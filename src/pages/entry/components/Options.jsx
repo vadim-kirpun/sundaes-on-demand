@@ -1,8 +1,8 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback } from 'react';
 import { Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
+import { useOptions } from '../../../api';
 import { useOrderDetails } from '../../../context/OrderDetails';
 import { formatCurrency } from '../../../helpers/format';
 import { PRICE_PER_ITEM } from '../../../constants';
@@ -11,18 +11,7 @@ import ToppingOption from './ToppingOption';
 import ScoopOption from './ScoopOption';
 
 const Options = ({ optionType }) => {
-  const [items, setItems] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3030/${optionType}`)
-      .then((res) => {
-        setItems(res.data);
-        setError(null);
-      })
-      .catch(setError);
-  }, [optionType]);
+  const { data, error } = useOptions(optionType);
 
   const [orderDetails, updateItemCount] = useOrderDetails();
 
@@ -48,7 +37,7 @@ const Options = ({ optionType }) => {
       <p>{total}</p>
 
       <Row>
-        {items.map(({ name, imagePath }) => (
+        {data.map(({ name, imagePath }) => (
           <ItemComponent
             key={name}
             name={name}

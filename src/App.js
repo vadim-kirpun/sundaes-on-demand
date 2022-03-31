@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Container } from 'react-bootstrap';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import OrderEntry from './pages/entry/OrderEntry';
 import OrderSummary from './pages/summary/OrderSummary';
@@ -12,17 +14,23 @@ const pages = {
   completed: OrderConfirmation,
 };
 
+const queryClient = new QueryClient();
+
 const App = () => {
   const [orderPhase, setOrderPhase] = useState('inProgress');
 
   const Page = pages[orderPhase];
 
   return (
-    <OrderDetailsProvider>
-      <Container>
-        <Page setOrderPhase={setOrderPhase} />
-      </Container>
-    </OrderDetailsProvider>
+    <QueryClientProvider client={queryClient}>
+      <OrderDetailsProvider>
+        <Container>
+          <Page setOrderPhase={setOrderPhase} />
+        </Container>
+      </OrderDetailsProvider>
+
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 };
 
